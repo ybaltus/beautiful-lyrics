@@ -39,9 +39,14 @@ def extract_lyrics(url_lyrics : str, word_length = 2):
     # Extract the words
     sentences = page_html_soup.find("div", class_="Lyrics__Container-sc-1ynbvzw-6 YYrds")
     lyrics_words = []
+    words_to_remove = (
+        "refrain",
+        "paroles"
+        "couplet"
+    )
     if sentences:
         for sentence in sentences.stripped_strings:
-            sentence_words = [word.strip("[()]\",.").lower() for word in sentence.split() if len(word) > 2]
+            sentence_words = [word.strip("[()]\",.").lower() for word in sentence.split() if len(word) > word_length and word.strip("[()]\",.").lower() not in words_to_remove]
             lyrics_words.extend(sentence_words)
    
     return lyrics_words
@@ -51,13 +56,13 @@ def get_top_words(words: list, top_count=10):
     counter = collections.Counter(words)
     return counter.most_common(10)
 
-def get_all_words():
+def get_all_words(word_length = 2):
     all_lyrics_urls = get_all_lyrics_urls()
     print("Nombre d'urls = " + str(len(all_lyrics_urls)))
     if len(all_lyrics_urls) > 0:
         all_words = []
         for lyrics_url in all_lyrics_urls:
-            lyrics = extract_lyrics(lyrics_url)
+            lyrics = extract_lyrics(lyrics_url, word_length)
             all_words.extend(lyrics)
         return all_words
     else:
