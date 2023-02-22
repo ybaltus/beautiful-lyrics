@@ -1,6 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 import collections
+import json
+import pathlib
+
+
+CUR_DIR = pathlib.Path.cwd()
+PATH_FILE = CUR_DIR / "words.json"
 
 def get_all_lyrics_urls():
     try:
@@ -67,3 +73,8 @@ def get_all_words(word_length = 2):
         return all_words
     else:
         return []
+
+def save_in_json_file(words: list):
+    with open(PATH_FILE, 'w') as f:
+        json.dump(words, f, indent=2)
+        
