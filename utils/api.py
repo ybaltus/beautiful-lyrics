@@ -28,7 +28,7 @@ def get_all_lyrics_urls():
 
 def extract_lyrics(url_lyrics : str, word_length = 2):
     r = requests.get(url_lyrics)
-    print(url_lyrics)
+    print(f"Traitement de l'url suivante: {url_lyrics}")
 
     if r.status_code != 200:
         print('Page impossible à récupérer.')
